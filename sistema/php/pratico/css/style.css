@@ -1,0 +1,25 @@
+// arquivo externo do css com possíveis alterações
+
+.erro
+{
+	color: #f00;
+}
+
+ul.cadastro-indentado,
+ul.cadastro-indentado-i
+{
+	width: 100%;
+	padding-left: 0 !important;
+	margin-left: 0 !important;
+}
+form li,
+ul.cadastro-indentado-i li
+{
+	float: left;
+	width: 100%;
+	list-style: none;
+}
+.stepContainer
+{
+	height: 283px !important;
+}
