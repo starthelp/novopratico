@@ -13,13 +13,28 @@ ul.cadastro-indentado-i
 	margin-left: 0 !important;
 }
 form li,
+ul.cadastro-indentado li,
 ul.cadastro-indentado-i li
 {
 	float: left;
 	width: 100%;
 	list-style: none;
 }
+ul.cadastro-indentado li {
+	height: 54px;
+}
 .stepContainer
 {
-	height: 283px !important;
+	height: 350px !important;
+}
+.error {
+	color: red;
+}
+.buttonFinish {
+	height: 36px !important;
+	margin-top: 5px !important;
+}
+.wizard_steps li {
+	min-width: 230px !important;
+	width: 230px !important;
 }

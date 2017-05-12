@@ -4,7 +4,7 @@
 *
 * @author rafael
 */
-class Dependente_model extends CI_Model {
+class Empregador_model extends CI_Model {
 
 	/**
 	* Grava os dados na tabela.
@@ -16,7 +16,7 @@ class Dependente_model extends CI_Model {
 
 		$this->load->database(); // faz o locad do DataBase
 
-		if ($this->db->insert("dependentes", $dados))
+		if ($this->db->insert("empregadores", $dados))
 		{
 			return true;
 		}
@@ -32,7 +32,7 @@ class Dependente_model extends CI_Model {
 		$this->load->database(); // faz o locad do DataBase
 		$this->db->where('id',$id);
 		// se alterado com sucesso, então
-		if ($this->db->update('dependentes',$dados))
+		if ($this->db->update('empregadores',$dados))
 		{
 			return true;
 		}
@@ -50,10 +50,11 @@ class Dependente_model extends CI_Model {
 	*/
 	public function deletar($id = null) {
 		if ($id) {
-			return $this->db->where('id', $id)->delete('dependentes');
+			return $this->db->where('id', $id)->delete('empregadores');
 		}
 	}
 
+	// função para retornar os colaboradres
 	public function retornaColaboradores()
 	{
 		$this->db->order_by("nome", "asc");
@@ -61,4 +62,20 @@ class Dependente_model extends CI_Model {
 		return $consulta;
 	}
 
+	// função para atualizar senha
+	public function atualizarSenha ($senhaNova, $id)
+	{
+		$this->load->database(); // faz o locad do DataBase
+		$this->db->where('id',$id);
+		// se alterado com sucesso, então
+		if ($this->db->update('empregadores',$senhaNova))
+		{
+			return true;
+		}
+		else {
+			// erro ao alterar o registro
+			return false;
+		}
+
+	}
 }

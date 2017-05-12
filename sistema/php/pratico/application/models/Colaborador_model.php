@@ -1,10 +1,10 @@
 <?php
 /**
-* Description of Dependente_Model
+* Description of Colaborador_Model
 *
 * @author rafael
 */
-class Dependente_model extends CI_Model {
+class Colaborador_model extends CI_Model {
 
 	/**
 	* Grava os dados na tabela.
@@ -16,7 +16,7 @@ class Dependente_model extends CI_Model {
 
 		$this->load->database(); // faz o locad do DataBase
 
-		if ($this->db->insert("dependentes", $dados))
+		if ($this->db->insert("colaboradores", $dados))
 		{
 			return true;
 		}
@@ -29,10 +29,10 @@ class Dependente_model extends CI_Model {
 
 	public function atualizar($dados, $id)
 	{
-		$this->load->database(); // faz o locad do DataBase
-		$this->db->where('id',$id);
+		$this->load->database(); // faz o load do DataBase
+		$this->db->where('cpf',$id);
 		// se alterado com sucesso, então
-		if ($this->db->update('dependentes',$dados))
+		if ($this->db->update('colaboradores',$dados))
 		{
 			return true;
 		}
@@ -50,14 +50,24 @@ class Dependente_model extends CI_Model {
 	*/
 	public function deletar($id = null) {
 		if ($id) {
-			return $this->db->where('id', $id)->delete('dependentes');
+			return $this->db->where('cpf', $id)->delete('colaboradores');
 		}
 	}
 
-	public function retornaColaboradores()
+
+	// função para retornar os países
+  public function retornaPaises()
 	{
-		$this->db->order_by("nome", "asc");
-		$consulta = $this->db->get("colaboradores");
+		$this->db->order_by("nome","asc");
+		$consulta = $this->db->get("paises");
+		return $consulta;
+	}
+
+	//função para retornar os estados
+	public function retornaEstados()
+	{
+		$this->db->order_by("nome","asc");
+		$consulta = $this->db->get("estados");
 		return $consulta;
 	}
 

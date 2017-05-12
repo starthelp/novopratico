@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Celke - Formulario</title>
+		<title>Registro deletado com sucesso</title>
 		<!-- Bootstrap -->
 	  <link href="<?php echo base_url('vendors/bootstrap/dist/css/bootstrap.min.css');?>" rel="stylesheet">
 	  <!-- Font Awesome -->
@@ -29,13 +29,13 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel">Registro cadastrado com sucesso</h4>
+						<h4 class="modal-title" id="myModalLabel">Registro excluído com sucesso</h4>
 					</div>
 					<div class="modal-body">
 					<?php echo $mensagem;  ?>
 					</div>
 					<div class="modal-footer">
-						<a href="<?php echo base_url('dependentes'); ?>"><button type="button" class="btn btn-success">Ok</button></a>
+						<a href="<?php echo base_url('colaboradores'); ?>"><button type="button" class="btn btn-success">OK</button></a>
 					</div>
 				</div>
 			</div>

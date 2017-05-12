@@ -9,7 +9,7 @@
 </div>
 </div>
 
-<!-- JQURY smart WIZARD !-->
+<!-- JQUERY smart WIZARD !-->
  <script src="<?php echo base_url('/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js'); ?>"></script>
 <!-- Bootstrap -->
 <script src="<?php echo base_url('vendors/bootstrap/dist/js/bootstrap.min.js'); ?>"></script>

@@ -52,10 +52,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // verificar as páginas inicial com o controller Index, e outras páginas
 */
 $route['default_controller'] = 'Index'; //tela inicial da página
-$route['404_override'] = '';
+$route['404_override'] = 'Index/404';
 $route['translate_uri_dashes'] = FALSE;
 // outras rotas para o uso do sistema
 $route['empregadores'] = 'Index/empregadores'; //tela inicial da página
 $route['dependentes'] = 'Index/dependentes'; //tela de dependentes
 $route['colaboradores'] = 'Index/colaboradores'; //tela de colaboradores
+$route['login'] = 'Index/login'; // tela de login do sistema
 $route['DependenteStore'] = 'Index/DependenteStore'; //tela de salvar dos dependetes
+$route['ColaboradorStore'] = 'Index/ColaboradorStore'; //tela de salvar dos dependetes
