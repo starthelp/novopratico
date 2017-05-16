@@ -39,6 +39,9 @@
 <script src="<?php echo base_url('vendors/moment/min/moment.min.js'); ?>"></script>
 <script src="<?php echo base_url('vendors/bootstrap-daterangepicker/daterangepicker.js'); ?>"></script>
 
+<!-- JQuery Mask !-->
+<script src="<?php echo base_url('vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js'); ?>"></script>
+
 <!-- Custom Theme Scripts -->
 <script src="<?php echo base_url('build/js/custom.min.js'); ?>"></script>
 </body>

@@ -25,7 +25,8 @@ ul.cadastro-indentado li {
 }
 .stepContainer
 {
-	height: 350px !important;
+	height: 490px !important;
+	overflow: hidden;
 }
 .error {
 	color: red;
@@ -35,6 +36,18 @@ ul.cadastro-indentado li {
 	margin-top: 5px !important;
 }
 .wizard_steps li {
-	min-width: 230px !important;
-	width: 230px !important;
+	/*min-width: 230px !important;*/
+	width: 181px !important;
+}
+.alert {
+	clear: both !important;
+}
+.alert-danger {
+	clear: both !important;
+}
+
+/* estilização de formulário */
+form input[type=text],
+form input[type=select], select, option {
+	text-transform: uppercase;
 }

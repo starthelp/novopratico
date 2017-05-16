@@ -24,9 +24,14 @@ $this->load->view('header');
 
 <!-- page content -->
 <div class="right_col" role="main">
+  <?php
+  if(isset($mensagens))
+  {
+    echo "<div class='alert alert-danger alert-dismissible fade in' role='alert'>".$mensagens."</div>";
+  }
+  ?>
   <div class="row">
     <div class="col-md-12">
-
       <div class="x_content">
         <div class="" role="tabpanel" data-example-id="togglable-tabs">
           <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
@@ -58,11 +63,12 @@ $this->load->view('header');
                       <thead>
                         <tr>
                           <th style="width: 20%; text-transform: uppercase;">Nome do Dependente</th>
+                          <th style="width: 20%; text-transform: uppercase;">Nome do Colaborador</th>
                           <th style="text-transform: uppercase;">Cpf do Dependente</th>
                           <th style="text-transform: uppercase;">Data de Nascimento</th>
                           <th style="text-transform: uppercase;">Dedução Imposto</th>
                           <th style="text-transform: uppercase;">Salário Família</th>
-                          <th style="width: 20%; text-transform: uppercase;">Opções do Cadastro</th>
+                          <th style="width: 15%; text-transform: uppercase;">Opções do Cadastro</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -74,10 +80,13 @@ $this->load->view('header');
                               <?= $dependente->nome; ?>
                             </td>
                             <td>
+
+                            </td>
+                            <td>
                               <?= $dependente->cpf; ?>
                             </td>
                             <td>
-                              <?= $dependente->nascimento; ?>
+                              <?= date('d/m/Y',strtotime($dependente->nascimento)); ?>
                             </td>
                             <td>
                               <?= $dependente->deducaoirrf; ?>
@@ -128,93 +137,80 @@ $this->load->view('header');
 
                                     <div class="x_content">
                                       <ul class="cadastro-indentado">
+                                        <form action="Dependente/DependenteStore" method="post" name="formDependente" id="formDependente" novalidate>
+                                          <span class="section">Cadastro de Dependentes</span>
+                                          <li>
+                                            <div class="item form-group">
+                                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomeDependente">Escolha o colaborador<span class="required">*</span>
+                                              </label>
+                                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <select name="colaboradorDependente" id="colaboradorDependente" class="form-control" required="required" style="text-transform: uppercase;">
+                                                  <?= $options_colaboradores; ?>
+                                                </select>
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="item form-group">
+                                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomeDependente">Nome<span class="required">*</span>
+                                              </label>
+                                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="nomeDependente" name="nomeDependente" class="form-control has-feedback-left" data-validate-length-range="6" data-validate-words="2" value="<?= set_value('nomeDependente') ? : (isset($nomeDependente) ? $nomeDependente : '') ?>" placeholder="Digite o nome do Dependente" required="required" type="text" style="text-transform: uppercase;" autofocus="true"/>
+                                                <span class="fa fa-user form-control-feedback left" style="line-height: 1.4em;" aria-hidden="true"></span>
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="item form-group">
+                                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cpfDependente">CPF <span class="required">*</span>
+                                              </label>
+                                              <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                                                <input type="text" id="cpfDependente" name="cpfDependente" required="required" placeholder="Digite somente números" value="<?= set_value('cpfDependente') ? : (isset($cpfDependente) ? $cpfDependente : '') ?>" maxlength="14" class="form-control col-md-7 col-xs-12"/>
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="item form-group">
+                                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cpfDependente">Data de Nascimento <span class="required">*</span>
+                                              </label>
+                                              <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                                                <input type="text" id="dataNascDependente" name="dataNascDependente" required="required" maxlength="10" data-inputmask="'mask': '99/99/9999'" placeholder="Formato: dd/mm/YYYY" value="<?= set_value('dataNascDependente') ? : (isset($dataNascDependente) ? $dataNascDependente : '') ?>" class="form-control has-feedback-left"/>
+                                                <span class="fa fa-calendar form-control-feedback left" style="line-height: 1.4em;" aria-hidden="true"></span>
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="item form-group">
+                                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="irrfDependente">Dedução Imposto de Renda <span class="required">*</span>
+                                              </label>
+                                              <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                                                <input type="text" id="irrfDependente" name="irrfDependente" required="required" placeholder="Recibo de imposto de renda" value="<?= set_value('iffrDependente') ? : (isset($iffrDependente) ? $iffrDependente : '') ?>" class="form-control col-md-7 col-xs-12"/>
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="item form-group">
+                                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="salfamiliaDependente">Salário Família <span class="required">*</span>
+                                              </label>
+                                              <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                                                <input type="text" class="form-control has-feedback-left" id="salfamiliaDependente" name="salfamiliaDependente" required="required" placeholder="Formato: R$ 0.00" onkeydown="FormataValor(this,28,event,2,'.',',');" value="<?= set_value('salfamiliaDependente') ? : (isset($salfamiliaDependente) ? $salfamiliaDependente : '') ?>"/>
+                                                <span class="fa fa-tag form-control-feedback left" style="line-height: 1.4em;" aria-hidden="true"></span>
+                                              </div>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div class="ln_solid" style="margin-top: 8px !important; margin-bottom: 14px !important;"></div>
+                                            <div class="form-group">
+                                              <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+                                                <input type="reset" name="resetarCadastro" id="resetarCadastro" class="btn btn-primary" value="Resetar"/>
+                                                <input id="send" type="submit" class="btn btn-success" value="Salvar Cadastro"/>
+                                                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>!-->
+                                              </div>
+                                            </div>
+                                          </li>
+                                        </form>
 
-                                        <?php
-                                        $this->load->helper('form');
-                                        $atributos = array('name' => 'formDependente', 'id' => 'formDependente', 'novalidate' => 'novalidade');
-                                        echo form_open('Dependente/DependenteStore',$atributos);
-
-                                        ?>
-
-                                        <span class="section">Cadastro de Dependentes</span>
-                                        <li>
-                                          <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomeDependente">Escolha o colaborador<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                              <select name="colaboradorDependente" id="colaboradorDependente" class="form-control" required="required">
-                                                <?php echo $options_colaboradores; ?>
-                                              </select>
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomeDependente">Nome<span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                              <span class="erro"><?php echo form_error('nomeDependente') ?  : ''; ?></span>
-                                              <input id="nomeDependente" name="nomeDependente" class="form-control has-feedback-left" data-validate-length-range="6" data-validate-words="2" value="<?= set_value('nomeDependente') ? : (isset($nomeDependente) ? $nomeDependente : '') ?>" placeholder="Digite o nome do Dependente" required="required" type="text" autofocus="true"/>
-                                              <span class="fa fa-user form-control-feedback left" style="line-height: 1.4em;" aria-hidden="true"></span>
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cpfDependente">CPF <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                                              <span class="erro"><?php echo form_error('cpfDependente') ?  : ''; ?></span>
-                                              <input type="text" id="cpfDependente" name="cpfDependente" required="required" placeholder="Formato: 000.000.000-00" value="<?= set_value('cpfDependente') ? : (isset($cpfDependente) ? $cpfDependente : '') ?>" class="form-control col-md-7 col-xs-12"/>
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="cpfDependente">Data de Nascimento <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                                              <span class="erro"><?php echo form_error('dataNascDependente') ?  : ''; ?></span>
-                                              <input type="text" id="dataNascDependente" name="dataNascDependente" required="required" placeholder="Formato: dd/mm/YYYY" value="<?= set_value('dataNascDependente') ? : (isset($dataNascDependente) ? $dataNascDependente : '') ?>" class="form-control has-feedback-left"/>
-                                              <span class="fa fa-calendar form-control-feedback left" style="line-height: 1.4em;" aria-hidden="true"></span>
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="irrfDependente">Dedução Imposto de Renda <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                                              <span class="erro"><?php echo form_error('iffrDependente') ?  : ''; ?></span>
-                                              <input type="text" id="irrfDependente" name="irrfDependente" required="required" placeholder="Recibo de imposto de renda" value="<?= set_value('iffrDependente') ? : (isset($iffrDependente) ? $iffrDependente : '') ?>" class="form-control col-md-7 col-xs-12"/>
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="salfamiliaDependente">Salário Família <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                                              <span class="erro"><?php echo form_error('salfamiliaDependente') ?  : ''; ?></span>
-                                              <input type="text" class="form-control has-feedback-left" id="salfamiliaDependente" name="salfamiliaDependente" required="required" placeholder="Formato: R$ 0.00" value="<?= set_value('salfamiliaDependente') ? : (isset($salfamiliaDependente) ? $salfamiliaDependente : '') ?>"/>
-                                              <span class="fa fa-tag form-control-feedback left" style="line-height: 1.4em;" aria-hidden="true"></span>
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div class="ln_solid" style="margin-top: 8px !important; margin-bottom: 14px !important;"></div>
-                                          <div class="form-group">
-                                            <div class="col-md-4 col-sm-12 col-xs-12 form-group">
-                                              <button type="reset" class="btn btn-primary">Resetar</button>
-                                              <input id="send" type="submit" class="btn btn-success" value="Salvar Cadastro"/>
-                                              <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>!-->
-                                            </div>
-                                          </div>
-                                        </li>
-                                        <?php
-                                        form_close();
-                                        ?>
-                                      </ul><!-- fima da ul !-->
+                                      </ul><!-- fim da ul !-->
                                     </div><!-- fim da classe x-content!-->
                                   </div>
                                 </div>

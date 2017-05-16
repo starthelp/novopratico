@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title><?php echo $titulo;  ?></title>
+  <title><?= $titulo;  ?></title>
 
   <!-- Bootstrap -->
   <link href="<?php echo base_url('vendors/bootstrap/dist/css/bootstrap.min.css');?>" rel="stylesheet">
@@ -36,6 +36,8 @@
   <script src="<?php echo base_url('js/jquery_validate.js'); ?>"></script>
   <!-- script validação de formulário !-->
   <script src="<?php echo base_url('js/js_validator.js'); ?>"></script>
+  <!-- script de validação de moeda !-->
+  <script src="<?php echo base_url('js/js_moeda.js'); ?>"></script>
 
 </head>
 <body class="nav-md">

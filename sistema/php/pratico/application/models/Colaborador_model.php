@@ -50,6 +50,7 @@ class Colaborador_model extends CI_Model {
 	*/
 	public function deletar($id = null) {
 		if ($id) {
+			$this->db->where('cpfColaborador', $id)->delete('dependentes');
 			return $this->db->where('cpf', $id)->delete('colaboradores');
 		}
 	}
@@ -70,5 +71,99 @@ class Colaborador_model extends CI_Model {
 		$consulta = $this->db->get("estados");
 		return $consulta;
 	}
+
+	// retorna os campos raça do select raça e cor
+	public function retornaRacaCor()
+	{
+		$this->db->order_by("descricao", "asc");
+		$consulta = $this->db->get("racacor");
+		return $consulta;
+	}
+
+	// retorna os camopos do select de escolaridade / grau de instrução
+	public function retornaEscolaridade()
+	{
+		$this->db->order_by("descricao", "asc");
+		$consulta = $this->db->get("grauinstrucao");
+		return $consulta;
+	}
+
+	// retorna os países de nascimento
+	public function retornaPaisNascimento()
+	{
+		$this->db->order_by("nome", "asc");
+		$consulta = $this->db->get("paises");
+		return $consulta;
+	}
+
+	// retorna o pais de nacionalidade
+	public function retornaPaisNacionalidade()
+	{
+		$this->db->order_by("nome", "asc");
+		$consulta = $this->db->get("paises");
+		return $consulta;
+	}
+
+	// retorna logradouro
+	public function retornaLogradouro()
+	{
+		$this->db->order_by("nome", "asc");
+		$consulta = $this->db->get("tipologradouro");
+		return $consulta;
+	}
+
+	// retorna a categoria do trabalhador
+	public function retornaCategoriaTrabalhador()
+	{
+		$this->db->order_by("descricao", "asc");
+		$consulta = $this->db->get("categoriatrabalhador");
+		return $consulta;
+	}
+
+	// retorna tipo de contrato
+	public function retornaTipoContrato()
+	{
+		$this->db->order_by("descricao", "asc");
+		$consulta = $this->db->get("tipocontrato");
+		return $consulta;
+	}
+
+	// retorna periodicidade de salário
+	public function retornaPeridiocidade()
+	{
+		$this->db->order_by("descricao", "desc");
+		$consulta = $this->db->get("peridiocidadesalario");
+		return $consulta;
+	}
+
+	// retorna estado civil
+	public function retornaEstadoCivil()
+	{
+		$this->db->order_by("id", "ASC");
+		$consulta = $this->db->get("estadocivil");
+		return $consulta;
+	}
+
+	// retorna cidades cadastradas
+	public function retornaCidadesEstados()
+	{
+		$idEstado = $this->input->post("idEstados");
+		$this->db->where("idEstado", $idEstado);
+		$this->db->order_by("nome", "asc");
+		$consulta = $this->db->get("cidades");
+		return $consulta;
+	}
+
+	// retorna cidades cadastradas da nacionalidade
+	public function retornaCidadesEstadosNacionalidade()
+	{
+		$idEstado = $this->input->post("idEstados");
+		$this->db->where("idEstado", $idEstado);
+		$this->db->order_by("nome", "asc");
+		$consulta = $this->db->get("cidades");
+		return $consulta;
+	}
+
+
 
 }

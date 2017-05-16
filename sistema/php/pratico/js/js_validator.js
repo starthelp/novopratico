@@ -1,7 +1,7 @@
 // formulário de dependetes
 $(function ()
 {
-	$( "#formDependente" ).validate( {
+	$( "#formDependente").validate( {
 		rules: {
 			colaboradorDependente: {
 				rquired: true
@@ -12,14 +12,16 @@ $(function ()
 			},
 			cpfDependente: {
 				required: true,
-				maxlength: 11
+				maxlength: 14,
+				cpf: true
 			},
 			irrfDependente: {
 				required: true,
 				minlength: 2
 			},
 			dataNascDependente: {
-				required: true
+				required: true,
+				data: true
 			},
 			salfamiliaDependente: "required"
 		},
@@ -33,14 +35,48 @@ $(function ()
 			},
 			cpfDependente: {
 				required: "Cpf é obrigatório",
-				minlength: "Digite no máximo 11 caracteres"
+				maxlength: "Digite no máximo 14 caracteres"
 			},
 			dataNascDependente: {
 				required: "O campo Data é obrigatório"
 			},
 			irrfDependente: {
 				required: "Preencha o campo Imposto de Renda",
-				minlength: "Digite no mínimo 2 caracteres",
+				minlength: "Digite no mínimo 2 caracteres"
+			},
+			salfamiliaDependente: "Salário Família é obrigatório",
+		}
+	});
+
+
+	$( "#formEditarDependente").validate( {
+		rules:
+			cpfDependente: {
+				required: true,
+				maxlength: 14,
+				cpf: true
+			},
+			irrfDependente: {
+				required: true,
+				minlength: 2
+			},
+			dataNascDependente: {
+				required: true,
+				data: true
+			},
+			salfamiliaDependente: "required"
+		},
+		messages: {
+			cpfDependente: {
+				required: "Cpf é obrigatório",
+				maxlength: "Digite no máximo 14 caracteres"
+			},
+			dataNascDependente: {
+				required: "O campo Data é obrigatório"
+			},
+			irrfDependente: {
+				required: "Preencha o campo Imposto de Renda",
+				minlength: "Digite no mínimo 2 caracteres"
 			},
 			salfamiliaDependente: "Salário Família é obrigatório",
 		}
@@ -160,5 +196,62 @@ $(function ()
 		}*/
 
 //});
+
+
+// função para a validação do CPF
+jQuery.validator.addMethod("cpf", function(value, element) {
+   var is_valid = false;
+
+   var regex_cpf_format = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
+   var regex_cpf_repeat = /^(0{11}|1{11}|2{11}|3{11}|4{11}|5{11}|6{11}|7{11}|8{11}|9{11})$/;
+   if ( regex_cpf_format.test( value ) && !regex_cpf_repeat.test( value.replace(/[^0-9]/, '' ) ) ) {
+      is_valid = true;
+   }
+
+   if ( is_valid ) {
+      var cpf = value.replace( /[^0-9]/g,'');
+
+      var a = [], b = 0, digits = 11;
+      for ( i = 0; i < 11; i++ ){
+         a[i] = cpf.charAt( i );
+         if ( i < 9 ) {
+            b += ( a[i] * --digits );
+         }
+      }
+
+      if ( ( x = b % 11 ) < 2 ) {
+         a[9] = 0;
+      } else {
+         a[9] = 11 - x ;
+      }
+
+      b = 0;
+      digits = 11;
+      for ( y = 0; y < 10; y++ ) {
+         b += ( a[y] * digits-- );
+      }
+      if ( ( x = b % 11 ) < 2)  {
+         a[10] = 0;
+      } else {
+         a[10] = 11 - x;
+      }
+
+      if ( ( cpf.charAt( 9 ) != a[9] ) || ( cpf.charAt( 10 ) != a[10] ) )  {
+         is_valid = false;
+      }
+   }
+   return this.optional( element ) || is_valid ;
+
+}, "Informe um número de cpf válido." );
+
+// método do campo data no formato vãlido
+$.validator.addMethod(
+    "data",
+    function(value, element) {
+        // put your own logic here, this is just a (crappy) example
+        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
+    },
+    "Digite a data no formato dd/mm/yyyy."
+);
 
 });

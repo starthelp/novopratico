@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // verificar as páginas inicial com o controller Index, e outras páginas
 */
 $route['default_controller'] = 'Index'; //tela inicial da página
-$route['404_override'] = 'Index/404';
+$route['404_override'] = 'Index/pagina404';
 $route['translate_uri_dashes'] = FALSE;
 // outras rotas para o uso do sistema
 $route['empregadores'] = 'Index/empregadores'; //tela inicial da página

@@ -16,6 +16,8 @@ class Colaborador extends CI_Controller {
 	public function create ()
 	{
 		$variaveis['titulo'] = 'Novo Cadastro';
+		$this->db->select('*');
+		$variaveis['cadastroColaborador'] = $this->db->get('colaboradores')->result();
 		$this->load->view('colaboradores', $variaveis);
 	}
 
@@ -29,7 +31,7 @@ class Colaborador extends CI_Controller {
 	{
 
 		$this->load->model('Colaborador_model', '', TRUE); // faz o load do model para poder inserir no banco de dados
-		$this->load->library('form_validation');
+		/*$this->load->library('form_validation');
 
 		$this->form_validation->set_rules('nomeColaborador', 'Nome do Colaborador', 'required|min_length[5]');
 		$this->form_validation->set_rules('cpfColaborador', 'Cpf do Colaborador', 'required|max_length[11]');
@@ -58,30 +60,45 @@ class Colaborador extends CI_Controller {
 			$variaveis['rodape'] = "Desenvolvido por StartHelp";
 			$variaveis['titulo'] = "Novo Registro. Campos a serem preenchidos";
 			$this->load->view('colaboradores',$variaveis);
-		} else {
+		} else {*/
 
-			$dados = array(
-				"nome" => $this->input->post('nomeColaborador'),
-				"cpf" => $this->input->post('cpfColaborador'),
-				"nascimento" => $this->input->post('datanascColaborador'),
-				"sexo" => $this->input->post('generoColaborador'),
-				"email" => $this->input->post('emailColaborador'),
-				"telefone" => $this->input->post('telefoneColaborador'),
-				"logradouro" => $this->input->post('logradouroColaborador'),
-				"cep" => $this->input->post('cepColaborador'),
-				"complemento" => $this->input->post('complementoColaborador'),
-				"bairro" => $this->input->post('bairroColaborador'),
-				"ufnascimento" => $this->input->post('estadoColaborador'),
-				"municipionascimento" => $this->input->post('cidadeColaborador'),
-				"paisnascimento" => $this->input->post('paisNascColaborador'),
-				"paisnacionalidade" => $this->input->post('paisNasColaborador'),
-				"ctps" => $this->input->post('numeroCarteira'),
-				"seriectps" => $this->input->post('serieCarteira'),
-				"ufctps" => $this->input->post('expedicaoCarteira'),
-				"nis" => $this->input->post('numeroNis'),
-				"pis" => $this->input->post('numeroPis'),
 
-			);
+				$dados['nome'] = $this->input->post('nomeColaborador');
+				$dados['cpf'] = $this->input->post('cpfColaborador');
+				$dados['nascimento'] = implode('-',array_reverse(explode('/',$this->input->post('datanascColaborador'))));
+				$dados['sexo'] = $this->input->post('generoColaborador');
+				$dados['email'] = $this->input->post('emailColaborador');
+				$dados['telefone'] = $this->input->post('telefoneColaborador');
+				$dados['celular'] = $this->input->post('celularColaborador');
+				$dados['idraca'] = $this->input->post('racaColaborador');
+				$dados['idgrauinstrucao'] = $this->input->post('escolaridadeColaborador');
+				$dados['logradouro'] = $this->input->post('logradouroColaborador');
+				$dados['tipologradouro'] = $this->input->post('tipoLogradouro');
+				$dados['numlogradouro'] = $this->input->post('numeroLogradouro');
+				$dados['cep'] = $this->input->post('cepColaborador');
+				$dados['complemento'] = $this->input->post('complementoColaborador');
+				$dados['bairro'] = $this->input->post('bairroColaborador');
+				$dados['idestado'] = $this->input->post('estadoColaborador');
+				$dados['idmunicipio'] = $this->input->post('cidadeColaborador');
+				$dados['idufnascimento'] = $this->input->post('estadoNascimentoColaborador');
+				$dados['idmunicipionascimento'] = $this->input->post('cidadeNascimentoColaborador');
+				$dados['idpaisnascimento'] = $this->input->post('paisNasColaborador');
+				$dados['idpaisnacionalidade'] = $this->input->post('paisNascColaborador');
+				$dados['ctps'] = $this->input->post('numeroCarteira');
+				$dados['seriectps'] = $this->input->post('serieCarteira');
+				$dados['ufctps'] = $this->input->post('expedicaoCarteira');
+				$dados['nis'] = $this->input->post('numeroNis');
+				$dados['pis'] = $this->input->post('numeroPis');
+				$dados['idtipocontrato'] = $this->input->post('tipoContrato');
+				$dados['idtipocargo'] = $this->input->post('cargoPretendido');
+				$dados['salariobase'] = $this->input->post('salarioBase');
+				$dados['idperidiocidade'] = $this->input->post('peridiocidadeColaborador');
+				$dados['primeiroemprego'] = $this->input->post('primeiroemprego');
+				$dados['localtrabalho'] = $this->input->post('localtrabalho');
+				$dados['numerolocaltrabalho'] = $this->input->post('numerolocaltrabalho');
+				$dados['idestadocivil'] = $this->input->post('estadoCivilColaborador');
+				$dados['dataAdmissao'] = implode('-',array_reverse(explode('/',$this->input->post('dataAdmissao'))));
+
 			if ($this->Colaborador_model->store($dados, null))
 			{
 				$variaveis['mensagem'] = "Dados gravados com sucesso!";
@@ -90,7 +107,7 @@ class Colaborador extends CI_Controller {
 				$variaveis['mensagem'] = "Ocorreu um erro. Por favor, tente novamente.";
 				$this->load->view('errors/html/v_erro', $variaveis);
 			}
-		}
+		/*}*/
 	}
 	/**
 	* Atualiza o registro a partir do formulário de edição de dados do colaborador
@@ -209,4 +226,33 @@ class Colaborador extends CI_Controller {
 
 	}
 
+	// busca cidades cadastradas
+	public function buscaCidadesEstados()
+	{
+		$this->load->model("Colaborador_model");
+
+		$cidades = $this->Colaborador_model->retornaCidadesEstados();
+
+		$option = "<option value=''>Selecione</option>";
+		foreach($cidades -> result() as $linha) {
+			$option .= "<option value='$linha->id'>$linha->nome</option>";
+		}
+
+		echo $option;
+	}
+
+	// busca cidades da nacinalidade
+	public function buscaCidadesEstadosNacionalidade()
+	{
+		$this->load->model("Colaborador_model");
+
+		$cidades = $this->Colaborador_model->retornaCidadesEstadosNacionalidade();
+
+		$option = "<option value=''>Selecione</option>";
+		foreach($cidades -> result() as $linha) {
+			$option .= "<option value='$linha->id'>$linha->nome</option>";
+		}
+
+		echo $option;
+	}
 }
