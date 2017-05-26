@@ -1,19 +1,19 @@
 <?php
 /**
- * Storefront engine room
- *
- * @package storefront
- */
+* Storefront engine room
+*
+* @package storefront
+*/
 
 /**
- * Assign the Storefront version to a var
- */
+* Assign the Storefront version to a var
+*/
 $theme              = wp_get_theme( 'storefront' );
 $storefront_version = $theme['Version'];
 
 /**
- * Set the content width based on the theme's design and stylesheet.
- */
+* Set the content width based on the theme's design and stylesheet.
+*/
 if ( ! isset( $content_width ) ) {
 	$content_width = 980; /* pixels */
 }
@@ -22,8 +22,8 @@ $storefront = (object) array(
 	'version' => $storefront_version,
 
 	/**
-	 * Initialize all the things.
-	 */
+	* Initialize all the things.
+	*/
 	'main'       => require 'inc/class-storefront.php',
 	'customizer' => require 'inc/customizer/class-storefront-customizer.php',
 );
@@ -47,7 +47,13 @@ if ( is_admin() ) {
 	$storefront->admin = require 'inc/admin/class-storefront-admin.php';
 }
 
+// criado menu para usuário logado no sistema e para usuário não logado no sistema
+register_nav_menus( array(
+	'menu-principal' => '<strong>Menu todos os usuarios</strong><br /> Usuários que não estão logados no sistema',
+	'menu-secundario' => '<strong>Menu usuarios logados</strong><br /> Usuários que estão logados no sistema'
+) );
+
 /**
- * Note: Do not add any custom code here. Please use a custom plugin so that your customizations aren't lost during updates.
- * https://github.com/woocommerce/theme-customisations
- */
+* Note: Do not add any custom code here. Please use a custom plugin so that your customizations aren't lost during updates.
+* https://github.com/woocommerce/theme-customisations
+*/

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +24,7 @@
   <!-- tema do css externo com possíveis alterações !-->
   <link href="<?php echo base_url('css/style.css');  ?>" rel="stylesheet">
   <!-- Font Awesome -->
-   <link href="<?php echo base_url('vendors/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet">
+  <link href="<?php echo base_url('vendors/font-awesome/css/font-awesome.min.css'); ?>" rel="stylesheet">
   <!-- jQuery -->
   <script src="<?php echo base_url('vendors/jquery/dist/jquery.min.js'); ?>"></script>
   <!-- modal deletar !-->
@@ -41,6 +40,25 @@
 
 </head>
 <body class="nav-md">
+<!-- modal para sair do sistema !-->
+<div class="modal fade bs-example-modal-lg-dependente" id="modal_sair_sistema">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirmação para sair</h4>
+      </div>
+      <div class="modal-body">
+        <p>Deseja realmente sair do sistema?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Não. Desejo continuar</button>
+        <button type="button" class="btn btn-danger" id="btn_sair">Sim. Desejo sair</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
   <div class="container body">
     <div class="main_container">
       <div class="col-md-3 left_col">
@@ -56,14 +74,36 @@
               <ul class="nav side-menu">
                 <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url('index'); ?>" title="Voltar para Dashboard">Tela Inicial</a></li>
-                    <li><a href="<?php echo base_url('empregadores'); ?>" title="Meus Dados do Cadastro">Meus Dados</a></li>
+                    <?php
+                    if ($empregadores[0]->tituloeleitor == '' && $empregadores[0]->irrfrecibo = '')
+                    {
+                      ?>
+                      <li><a href="<?php echo base_url('index'); ?>" title="Voltar para Dashboard">Tela Inicial</a></li>
+                      <?php
+                    } else {
+                      ?>
+                      <li><a href="<?php echo base_url('Index'); ?>" title="Voltar para Dashboard">Tela Inicial</a></li>
+                      <li><a href="<?php echo base_url('empregadores'); ?>" title="Meus Dados do Cadastro">Meus Dados</a></li>
+                      <?php
+                    }
+                    ?>
                   </ul>
                 </li>
                 <li><a><i class="fa fa-edit"></i> Cadastros <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url('colaboradores'); ?>" title="Colaboradores">Colaboradores</a></li>
-                    <li><a href="<?php echo base_url('dependentes'); ?>" title="Dependentes">Dependentes</a></li>
+                    <?php
+                    if ($empregadores[0]->tituloeleitor == '' || $empregadores[0]->irrfrecibo = '')
+                    {
+                      ?>
+                      <li><a href="#" title="Sem permissão">Acesso Restrito</a></li>
+                      <?php
+                    } else {
+                      ?>
+                      <li><a href="<?php echo base_url('colaboradores'); ?>" title="Colaboradores">Colaboradores</a></li>
+                      <li><a href="<?php echo base_url('dependentes'); ?>" title="Dependentes">Dependentes</a></li>
+                      <?php
+                    }
+                    ?>
                   </ul>
                 </li>
               </ul>
@@ -96,9 +136,9 @@
                   <span class=" fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu pull-right">
-                  <li><a href="javascript:;" title="Visualizar Perfil"> Perfil</a></li>
-                  <li><a href="javascript:;" title="Ajuda do Sistema">Ajuda do Sistema</a></li>
-                  <li><a href="<?php echo base_url('Login/Logout'); ?>" title="Sair do Sistema"><i class="fa fa-sign-out pull-right" title="Sair do Sistema"></i> Sair</a></li>
+                  <li><a href="<?php echo base_url('empregadores'); ?>" title="Visualizar Perfil"> Perfil</a></li>
+                <!--  <li><a href="http://www.praticoonline.com.br/contato/" target="_blank" title="Ajuda do Sistema">Ajuda do Sistema</a></li>!-->
+                  <li><a href="" class="confirm_sair_sistema" title="Sair do Sistema"><i class="fa fa-sign-out pull-right" title="Sair do Sistema"></i> Sair</a></li>
                 </ul>
               </li>
 

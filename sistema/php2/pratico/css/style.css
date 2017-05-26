@@ -1,0 +1,40 @@
+// arquivo externo do css com possíveis alterações
+
+.erro
+{
+	color: #f00;
+}
+
+ul.cadastro-indentado,
+ul.cadastro-indentado-i
+{
+	width: 100%;
+	padding-left: 0 !important;
+	margin-left: 0 !important;
+}
+form li,
+ul.cadastro-indentado li,
+ul.cadastro-indentado-i li
+{
+	float: left;
+	width: 100%;
+	list-style: none;
+}
+ul.cadastro-indentado li {
+	height: 54px;
+}
+.stepContainer
+{
+	height: 350px !important;
+}
+.error {
+	color: red;
+}
+.buttonFinish {
+	height: 36px !important;
+	margin-top: 5px !important;
+}
+.wizard_steps li {
+	min-width: 230px !important;
+	width: 230px !important;
+}

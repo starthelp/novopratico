@@ -1,8 +1,8 @@
 <?php
 /**
-* Description of Dependente_Model
+* Description of Empregadores_model
 *
-* @author rafael
+* @author StartHelp
 */
 class Empregador_model extends CI_Model {
 
@@ -78,4 +78,77 @@ class Empregador_model extends CI_Model {
 		}
 
 	}
+
+	// retorna estados
+	public function retornaEstado ()
+	{
+		$this->db->order_by("nomeestado", "asc");
+		$consulta = $this->db->get("estados");
+		return $consulta;
+	}
+
+	// retorna cidades do empregador
+	public function retornaCidadesEstados ()
+	{
+		$idEstado = $this->input->post("idEstados");
+		$this->db->where("idEstado", $idEstado);
+		$this->db->order_by("nomecidade", "asc");
+		$consulta = $this->db->get("cidades");
+		return $consulta;
+	}
+
+
+	public function geteditarEmpregador($userLogado)
+	{
+			$this->db->select('
+			empregadores.id,
+			empregadores.nomeempregador,
+			empregadores.nascimentoemp,
+			empregadores.login,
+			empregadores.sexo,
+			empregadores.cpf,
+			empregadores.tituloeleitor,
+			empregadores.irrfrecibo,
+			empregadores.senha,
+			empregadores.telefone,
+			empregadores.celular,
+			empregadores.email,
+			empregadores.logradouro,
+			empregadores.tipologradouro,
+			empregadores.cep,
+			empregadores.numlogradouro,
+			empregadores.complemento,
+			empregadores.bairro,
+			empregadores.idmunicipio,
+			empregadores.iduf,
+			tipologradouro.nomelogradouro,
+			estados.nomeestado,
+			cidades.nomecidade
+			');
+			$this->db->from('empregadores');
+			$this->db->join('tipologradouro','empregadores.tipologradouro = tipologradouro.id','inner');
+			$this->db->join('estados','empregadores.iduf = estados.id','inner');
+			$this->db->join('cidades','empregadores.idmunicipio = cidades.id','inner');
+			$this->db->where('empregadores.id',$userLogado);
+			$queryEmpregadores = $this->db->get();
+			return $queryEmpregadores->result();
+	}
+
+	// retorna todas os estados cadastrados
+	public function retornatodosEstados ()
+	{
+		$this->db->select("*");
+		$this->db->order_by("nomeestado", "asc");
+		return $this->db->get("estados")->result();
+	}
+
+	// retorna todos os tipos de logradouro
+
+	public function retornatodosLogradouro ()
+	{
+		$this->db->select("*");
+		$this->db->order_by("nomelogradouro", "asc");
+		return $this->db->get("tipologradouro")->result();
+	}
+
 }

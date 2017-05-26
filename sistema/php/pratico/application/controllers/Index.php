@@ -9,18 +9,43 @@ class Index extends CI_Controller {
 		$this->load->helper('url');
 	}
 	// chama a página index
-	public function index ()
+	public function Inicial ()
 	{
 		// colocando o array com as informações de título do projeto
 		$dados['titulo'] = "Prático. Sistema de Contabilidade e Gestão Online";
 		$dados['rodape'] = "Desenvolvido por SuportHelp";
-		$this->load->view('index',$dados);
+		$this->load->view('Index',$dados);
 	}
 	// chama a págian de perfil do empregador
 	public function Empregadores ()
 	{
 		$dados['titulo'] = "Prático. Sistema de Contabilidade e Gestão Online - Informações do Empregador";
 		$dados['rodape'] = "Desenvolvido por StartHelp";
+
+		$this->load->model('Empregador_model', '', TRUE);
+
+		// retorna o estado
+		$retornaEstado = $this->Empregador_model->retornaEstado();
+		$option = "<option value=''>Selecione...</option>";
+		foreach ($retornaEstado-> result() as $linha) {
+			$option .= "<option value='$linha->id'>$linha->nomeestado</option>";
+		}
+
+		// retorna todos os options
+		$dados['options_estados'] = $option;
+
+		// select para trazer os colaboradores
+		$this->db->select('*');
+		$this->db->join('cidades','idmunicipio = id','inner');
+		$this->db->join('estados','estados.id = colaboradores.idestado','inner');
+
+		$dados['mostraColaborador'] = $this->db->get('colaboradores')->result();
+
+		// pegar a session do usuário Logado no sistema !-->
+		$userLogado = $this->session->userdata("usuario_logado");
+		$dados['empregadores'] = $this->Empregador_model->geteditarEmpregador($userLogado['id']);
+		$dados['empregadorUF'] = $this->Empregador_model->retornatodosEstados();
+		$dados['retornatipoLogradouro'] = $this->Empregador_model->retornatodosLogradouro();
 		$this->load->view('empregadores',$dados);
 	}
 	// chama a página de colaboraores
@@ -28,84 +53,83 @@ class Index extends CI_Controller {
 	{
 		$dados['titulo'] = "Prático. Sistema de Contabilidade e Gestão Online - Colaboradores";
 		$dados['rodape'] = "Desenvolvido por StartHelp";
-
 		$this->load->model('Colaborador_model', '', TRUE);
 
 		// retorna raça e cor
 		$racacor = $this->Colaborador_model->retornaRacaCor();
 		$option1 = "<option value=''>Selecione...</option>";
 		foreach ($racacor-> result() as $linha) {
-			$option1 .= "<option value='$linha->id'>$linha->descricao</option>";
+			$option1 .= "<option value='$linha->id'>$linha->descricaoracacor</option>";
 		}
 
 		// retorna o grau de instrução
 		$grauinstrucao = $this->Colaborador_model->retornaEscolaridade();
 		$option2 = "<option value=''>Selecione...</option>";
 		foreach ($grauinstrucao-> result() as $linha) {
-			$option2 .= "<option value='$linha->id'>$linha->descricao</option>";
+			$option2 .= "<option value='$linha->id'>$linha->descricaograu</option>";
 		}
 
 		// retorna a Nacionalidade
 		$nacionalidade = $this->Colaborador_model->retornaPaisNacionalidade();
 		$option3 = "<option value=''>Selecione...</option>";
 		foreach ($nacionalidade-> result() as $linha) {
-			$option3 .= "<option value='$linha->id'>$linha->nome</option>";
+			$option3 .= "<option value='$linha->id'>$linha->nomepais</option>";
 		}
 
 		// retorna o pais de nascimento
 		$paisnascimento = $this->Colaborador_model->retornaPaisNascimento();
 		$option4 = "<option value=''>Selecione...</option>";
 		foreach ($paisnascimento-> result() as $linha) {
-			$option4 .= "<option value='$linha->id'>$linha->nome</option>";
+			$option4 .= "<option value='$linha->id'>$linha->nomepais</option>";
 		}
 
 		// retorna países
 		$paises = $this->Colaborador_model->retornaPaises();
 		$option5 = "<option value=''>Selecione...</option>";
 		foreach ($paises-> result() as $linha) {
-			$option5 .= "<option value='$linha->id'>$linha->nome</option>";
+			$option5 .= "<option value='$linha->id'>$linha->nomepais</option>";
 		}
 
 		// retorna estados
 		$estados = $this->Colaborador_model->retornaEstados();
 		$option6 = "<option value=''>Selecione...</option>";
 		foreach ($estados-> result() as $linha) {
-			$option6 .= "<option value='$linha->id'>$linha->nome</option>";
+			$option6 .= "<option value='$linha->id'>$linha->nomeestado</option>";
 		}
 
 		// retorna tipo de logradouro
 		$tipologradouro = $this->Colaborador_model->retornaLogradouro();
 		$option7 = "<option value=''>Selecione...</option>";
 		foreach ($tipologradouro-> result() as $linha) {
-			$option7 .= "<option value='$linha->id'>$linha->nome</option>";
+			$option7 .= "<option value='$linha->id'>$linha->nomelogradouro</option>";
 		}
 
 		// retorna a categoria do trabalhador
 		$categoriatrabalhador = $this->Colaborador_model->retornaCategoriaTrabalhador();
 		$option8 = "<option value=''>Selecione...</option>";
 		foreach ($categoriatrabalhador-> result() as $linha) {
-			$option8 .= "<option value='$linha->id'>$linha->descricao</option>";
+			$option8 .= "<option value='$linha->id'>$linha->descricaocattrab</option>";
 		}
 
 		// retorna o tipo de contrato
 		$retornaTipoContrato = $this->Colaborador_model->retornaTipoContrato();
 		$option9 = "<option value=''>Selecione...</option>";
 		foreach ($retornaTipoContrato-> result() as $linha) {
-			$option9 .= "<option value='$linha->id'>$linha->descricao</option>";
+			$option9 .= "<option value='$linha->id'>$linha->descricaotipocont</option>";
 		}
 
 		// retorna a peridiocidade
 		$retornaPeridiocidade = $this->Colaborador_model->retornaPeridiocidade();
 		$option10 = "<option value=''>Selecione...</option>";
 		foreach ($retornaPeridiocidade-> result() as $linha) {
-			$option10 .= "<option value='$linha->id'>$linha->descricao</option>";
+			$option10 .= "<option value='$linha->id'>$linha->descricaoper</option>";
 		}
 
 		// retorno estado civil
 		$retornaEstadoCivil = $this->Colaborador_model->retornaEstadoCivil();
 		$option11 = "<option value=''>Selecione...</option>";
 		foreach ($retornaEstadoCivil-> result() as $linha) {
-			$option11 .= "<option value='$linha->id'>$linha->descricao</option>";
+			$option11 .= "<option value='$linha->id'>$linha->descricaoestcivil</option>";
 		}
 
 
@@ -119,11 +143,14 @@ class Index extends CI_Controller {
 		$dados['options_tipo_logradouro'] = $option7;
 		$dados['options_categoria_trabalhador'] = $option8;
 		$dados['options_tipo_contrato'] = $option9;
-	  $dados['options_peridiocidade'] = $option10;
+		$dados['options_peridiocidade'] = $option10;
 		$dados['options_estado_civil'] = $option11;
 
-		//select para fazer a consulta no cadastro de dependentes
+		//select para fazer a consulta no cadastro de colaboradores
 		$this->db->select('*');
+		$this->db->join('cidades','idmunicipio = id','inner');
+		$this->db->join('estados','estados.id = colaboradores.idestado','inner');
+
 		$dados['cadastroColaborador'] = $this->db->get('colaboradores')->result();
 		$this->load->view('colaboradores',$dados);
 	}
@@ -133,19 +160,15 @@ class Index extends CI_Controller {
 		// variáveis como título da página
 		$dados['titulo'] = "Prático. Sistema de Contabilidade e Gestão Online - Dependentes";
 		$dados['rodape'] = "Desenvolvido por StartHelp";
-
-		// dados do model para trazer e fazer os selects
 		$this->load->model('Dependente_model', '', TRUE);
-		$colaboradores = $this->Dependente_model->retornaColaboradores();
-		$option = "<option value=''>Selecione o colaborador</option>";
-		foreach ($colaboradores-> result() as $linha) {
-			$option .= "<option value='$linha->cpf'>$linha->nome</option>";
-		}
 
+		$colaborador = $this->Dependente_model->retornaColaboradores();
+		$option = "<option value=''>Selecione...</option>";
+		foreach ($colaborador-> result() as $linha) {
+			$option .= "<option value='$linha->cpf'>$linha->nomecolaborador</option>";
+		}
 		$dados['options_colaboradores'] = $option;
-		// select para fazer a consulta para trazer os dependentes
-		$this->db->select('*');
-		$dados['cadastroDependente'] = $this->db->get('dependentes')->result();
+		$dados['cadastroDependente'] = $this->Dependente_model->selecionarDependentes();
 		$this->load->view('dependentes',$dados);
 	}
 
@@ -162,4 +185,5 @@ class Index extends CI_Controller {
 		$dados['rodape'] = "Desenvolvido por StartHelp";
 		$this->load->view('404',$dados);
 	}
+
 }

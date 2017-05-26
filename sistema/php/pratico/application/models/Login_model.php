@@ -2,7 +2,7 @@
 /**
 * Description of Login_Model
 *
-* @author rafael
+* @author starthelp
 */
 class Login_model extends CI_Model {
 
@@ -13,9 +13,9 @@ class Login_model extends CI_Model {
 			 return $usuario;
 	 }
 
-	 public function destruirSessao () {
-				$this->session->set_userdata('usuario_logado', FALSE);
-				$this->session->session_destroy();
+	 public function destruirSessao ()
+	 {
+				$this->session->unset_userdata('usuairo_logado');
 				return true;
 	 }
 }

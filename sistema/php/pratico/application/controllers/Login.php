@@ -22,10 +22,15 @@ class Login extends CI_Controller {
 
 		if($usuario)
 		{
+			// inicial o model com as informações do usuário logado no Sistema
+			$this->load->model('Inicial_model', '', TRUE);
 			$dados['titulo'] = "Prático. Sistema de Contabilidade e Gestão Online";
 			$dados['rodape'] = "Desenvolvido por StartHelp";
 			$this->session->set_userdata("usuario_logado", $usuario);
-			$this->load->view("index", $dados);
+			$userLogado = $this->session->userdata("usuario_logado");
+			$dados['empregadores'] = $this->Inicial_model->dadosusuarioLogado($userLogado['id']);
+			$this->load->view("Index", $dados);
+		//	$this->load->view("header", $dados);
 		}
 		else
 		{
